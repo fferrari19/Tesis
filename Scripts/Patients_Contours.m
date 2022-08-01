@@ -109,7 +109,7 @@ switch paciente
         % GUARDAMOS CONTORNO SUPERPUESTO CON LA IMAGEN ORIGINAL
         imwrite(cont_img,strcat('cont&img_', paciente, '.png'))
 
-% -------------------------------4-CORDERO--------------------------------------------
+% ------------------------------- 4-CORDERO --------------------------------------------
     case 'cordero'
         % LEEMOS LA IMAGEN Y LE APLICAMOS LA LUT:
         B = Read_image_and_apply_LUT('CORDER04.dcm');
@@ -143,9 +143,115 @@ switch paciente
         title('Contorno + Imagen')
         % GUARDAMOS CONTORNO SUPERPUESTO CON LA IMAGEN ORIGINAL
         imwrite(cont_img,strcat('cont&img_', paciente, '.png'))
+        
+        % ------------------------------- 5-GENTILE (*) --------------------------------------------
+    case 'gentile'
+        % LEEMOS LA IMAGEN Y LE APLICAMOS LA LUT:
+        B = Read_image_and_apply_LUT('GENTIL00.dcm');
+        % ELEGIMOS EL FRAME RECORTAMOS:
+        B = B(:,:,:,101); 
+        B= B(71:522,267:654);
+        
+        figure(2)
+        imshow(B)
+        
+        % SACAMOS LA ROI A PARTIR DE LA MÁSCARA:
+        [mask,B2] = get_mask(B,0.25); 
+        %bw = activecontour(B2,mask,500,'Chan-Vese','ContractionBias',0.2);
+        bw = activecontour(B2,mask,500,'Chan-Vese','SmoothFactor',0.7);
+
+        imwrite(bw,strcat('ROI_', paciente, '.png'))
+        figure(3)
+        % IMAGEN + ROI PARA VER RESULTADO DE LA SEGMENTACION:
+        fuse = imfuse(bw,B,'blend');
+        imshow(fuse);
+        % GUARDAMOS PARA BORRAR EXCEDENTE CON PAINT:
+        imwrite(bw,strcat('bw_', paciente, '.png'));
+        
+        pause % SEGUIMOS POST EDICIÓN MANUAL
+        figure(4)
+        % NOS QUEDAMOS CON EL CONTORNO A PARTIR DE LA IMAGEN EDITADA 
+        cont = edge(rgb2gray(imread(strcat('bw_', paciente, '.png'))),'canny');
+        imwrite(cont,strcat('placa_', paciente, '.png'));
+        cont_img = imfuse(B,cont,'blend');
+        imshow(cont_img)
+        title('Contorno + Imagen')
+        % GUARDAMOS CONTORNO SUPERPUESTO CON LA IMAGEN ORIGINAL
+        imwrite(cont_img,strcat('cont&img_', paciente, '.png'))
+        
+% ------------------------------- 6-FOLGUEIRA --------------------------------------------
+    case 'folgueira'
+        % LEEMOS LA IMAGEN Y LE APLICAMOS LA LUT:
+        B = Read_image_and_apply_LUT('FOLGUE00.dcm');
+        % ELEGIMOS EL FRAME RECORTAMOS:
+        B = B(:,:,:); % Es una imagen
+        B= B(71:522,267:654);
+        
+        figure(2)
+        imshow(B)
+        
+        % SACAMOS LA ROI A PARTIR DE LA MÁSCARA:
+        [mask,B2] = get_mask(B,0.25); 
+        %bw = activecontour(B2,mask,500,'Chan-Vese','ContractionBias',0.2);
+        bw = activecontour(B2,mask,500,'Chan-Vese','ContractionBias',-0.2);
+
+        imwrite(bw,strcat('ROI_', paciente, '.png'))
+        figure(3)
+        % IMAGEN + ROI PARA VER RESULTADO DE LA SEGMENTACION:
+        fuse = imfuse(bw,B,'blend');
+        imshow(fuse);
+        % GUARDAMOS PARA BORRAR EXCEDENTE CON PAINT:
+        imwrite(bw,strcat('bw_', paciente, '.png'));
+        
+        pause % SEGUIMOS POST EDICIÓN MANUAL
+        figure(4)
+        % NOS QUEDAMOS CON EL CONTORNO A PARTIR DE LA IMAGEN EDITADA 
+        cont = edge(rgb2gray(imread(strcat('bw_', paciente, '.png'))),'canny');
+        imwrite(cont,strcat('placa_', paciente, '.png'));
+        cont_img = imfuse(B,cont,'blend');
+        imshow(cont_img)
+        title('Contorno + Imagen')
+        % GUARDAMOS CONTORNO SUPERPUESTO CON LA IMAGEN ORIGINAL
+        imwrite(cont_img,strcat('cont&img_', paciente, '.png'))
+
+% ------------------------------- 7-FOGGIA --------------------------------------------
+    case 'foggia'
+        % LEEMOS LA IMAGEN Y LE APLICAMOS LA LUT:
+        B = Read_image_and_apply_LUT('FOGGIA00.dcm');
+        % ELEGIMOS EL FRAME RECORTAMOS:
+        B = B(:,:,:,129); % Es una imagen
+        B= B(71:522,306:616);
+        
+        figure(2)
+        imshow(B)
+        
+        % SACAMOS LA ROI A PARTIR DE LA MÁSCARA:
+        [mask,B2] = get_mask(B,0.25); 
+        %bw = activecontour(B2,mask,500,'Chan-Vese','ContractionBias',0.2);
+        bw = activecontour(B2,mask,500,'Chan-Vese','SmoothFactor',3);
+
+        imwrite(bw,strcat('ROI_', paciente, '.png'))
+        figure(3)
+        % IMAGEN + ROI PARA VER RESULTADO DE LA SEGMENTACION:
+        fuse = imfuse(bw,B,'blend');
+        imshow(fuse);
+        % GUARDAMOS PARA BORRAR EXCEDENTE CON PAINT:
+        imwrite(bw,strcat('bw_', paciente, '.png'));
+        
+        pause % SEGUIMOS POST EDICIÓN MANUAL
+        figure(4)
+        % NOS QUEDAMOS CON EL CONTORNO A PARTIR DE LA IMAGEN EDITADA 
+        cont = edge(rgb2gray(imread(strcat('bw_', paciente, '.png'))),'canny');
+        imwrite(cont,strcat('placa_', paciente, '.png'));
+        cont_img = imfuse(B,cont,'blend');
+        imshow(cont_img)
+        title('Contorno + Imagen')
+        % GUARDAMOS CONTORNO SUPERPUESTO CON LA IMAGEN ORIGINAL
+        imwrite(cont_img,strcat('cont&img_', paciente, '.png'))
 
         
 end
+
 
 %% -------------------- DENOISING DEL CONTORNO --------------------
 

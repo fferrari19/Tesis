@@ -15,7 +15,7 @@ clc
 % GARCIA08.dcm
 
 
-info = dicominfo('PRINSI04.dcm')
+info = dicominfo('FOGGIA00.dcm');
 dicom_img = dicomread(info);
 
 
