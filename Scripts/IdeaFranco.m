@@ -21,17 +21,19 @@
         
         imshow(Im_cont);
         % ver de hacer improfile para las intensidades de la linea inf
-%         p=improfile (5);
+        p=improfile ;
         
-        
+        % me quedo con la intensidad más repetida ? ver que cuan valido es
+        Intensidad = mode(p);
         
         [R,C]=size(Im_cont);
         for i=1:R
             for j=1:C
-                if Im_cont(i,j)==60 || Im_cont(i,j)==61
+                if Im_cont(i,j)== Intensidad
                     Im_cont(i,j)=255;
                 end
             end
         end
         
+        imshow(Im_cont);
          
