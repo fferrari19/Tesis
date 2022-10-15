@@ -1,5 +1,5 @@
 % LEEMOS LA IMAGEN Y LE APLICAMOS LA LUT:
-B = Read_image_and_apply_LUT('ETCHAR02.dcm');
+B = Read_image_and_apply_LUT('ETCHAR00.dcm');
 % ELEGIMOS EL FRAME RECORTAMOS:
 B = B(:,:,:,50); 
 B= B(71:522,267:654);
@@ -15,12 +15,13 @@ perim_sup= Superpixel(B_sinlumen);
 B_contorno= imoverlay(B_sinlumen,perim_sup,'cyan');
 imshow(B_contorno);
 B_contorno_gray = rgb2gray(B_contorno);
+figure(2)
 imshow(B_contorno_gray);
 % ver de hacer improfile para las intensidades de la linea inf
 
 p=improfile;     
 % me quedo con la intensidad más repetida ? ver que cuan valido es
-p=find(p~=0);
+%p=find(p~=0);
 Intensidad = round(mode(p));
 [R,C]=size(B_contorno_gray);
 

@@ -15,7 +15,7 @@ clc
 % GARCIA08.dcm
 
 
-info = dicominfo('FOGGIA00.dcm');
+info = dicominfo('TOLEDO00.dcm');
 dicom_img = dicomread(info);
 
 
@@ -39,3 +39,5 @@ for i=1:size(dicom_img,4)
 imshow(B(:,:,:,i));   
 i
 end
+
+% imwrite( B(71:522,267:654,:,100),strcat('placa', '.png'));
